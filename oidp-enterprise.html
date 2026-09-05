@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ONE IT WORLD — OIDP Enterprise: Discovery &amp; CMDB para Migraciones Críticas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+
+  :root{
+    --bg: #060b19;
+    --bg-raised: #0b1224;
+    --card: rgba(14,23,42,0.75);
+    --card-strong: linear-gradient(135deg, rgba(14,23,42,0.9) 0%, rgba(2,19,56,0.8) 100%);
+    --border: rgba(255,255,255,0.08);
+    --border-strong: rgba(0,240,255,0.35);
+    --ink: #f8fafc;
+    --ink-soft: #94a3b8;
+    --ink-faint: #5b6a84;
+    --cyan: #00f0ff;
+    --blue: #0066ff;
+    --grad: linear-gradient(135deg, #00f0ff 0%, #0066ff 100%);
+    --grad-text: linear-gradient(90deg, #00f0ff 0%, #0066ff 100%);
+    --glow: 0 0 20px rgba(0,210,255,0.3);
+  }
+
+  *{ box-sizing:border-box; }
+  html{ color-scheme: dark; }
+  body{
+    margin:0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1,h2,h3{ font-family:'Plus Jakarta Sans', sans-serif; text-wrap: balance; margin:0; }
+  a{ color: inherit; text-decoration:none; }
+  .mono{ font-family:'JetBrains Mono', monospace; }
+
+  .bg-field{
+    position:fixed; inset:0; z-index:-1; pointer-events:none;
+    background:
+      radial-gradient(circle at 15% 15%, rgba(0,102,255,0.16) 0%, rgba(0,0,0,0) 40%),
+      radial-gradient(circle at 85% 55%, rgba(0,240,255,0.10) 0%, rgba(0,0,0,0) 42%),
+      linear-gradient(to right, rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: auto, auto, 44px 44px, 44px 44px;
+  }
+
+  .wrap{ max-width: 1160px; margin:0 auto; padding: 0 28px; }
+
+  /* ---------- nav ---------- */
+  nav{
+    position: sticky; top:0; z-index: 20;
+    background: rgba(6,11,25,0.82);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner{
+    max-width: 1160px; margin:0 auto; padding: 16px 28px;
+    display:flex; align-items:center; justify-content:space-between; gap:24px;
+  }
+  .brand{ display:flex; align-items:center; gap:10px; font-weight:800; font-size:1.05rem; letter-spacing:0.01em; }
+  .brand svg, .brand img{ width:30px; height:30px; object-fit:contain; }
+  .nav-links{ display:flex; gap:28px; font-size:0.92rem; color: var(--ink-soft); }
+  .nav-links a:hover{ color: var(--ink); }
+  .nav-cta{
+    background: var(--grad); color:#04121a; font-weight:700; font-size:0.88rem;
+    padding: 10px 18px; border-radius:8px; box-shadow: var(--glow); white-space:nowrap;
+  }
+  @media (max-width: 860px){ .nav-links{ display:none; } }
+
+  .nav-right{ display:flex; align-items:center; gap:14px; }
+  .lang-switch{ display:flex; align-items:center; gap:2px; background: rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:20px; padding:3px; flex:none; }
+  .lang-btn{ background:transparent; border:none; color:var(--ink-faint); font-family:'JetBrains Mono', monospace; font-size:0.76rem; font-weight:600; padding:6px 11px; border-radius:16px; cursor:pointer; }
+  .lang-btn.active{ background: var(--grad); color:#04121a; }
+
+  /* ---------- hero ---------- */
+  .hero{ padding: 84px 0 60px; display:grid; grid-template-columns: 1.15fr 0.85fr; gap: 48px; align-items:center; }
+  @media (max-width: 900px){ .hero{ grid-template-columns:1fr; padding-top:56px; } }
+
+  .eyebrow{
+    font-size:0.82rem; letter-spacing:0.16em; text-transform:uppercase;
+    color: var(--cyan); margin-bottom:16px; display:flex; align-items:center; gap:9px;
+  }
+  .eyebrow::before{ content:""; width:7px; height:7px; border-radius:50%; background: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
+
+  h1{ font-size: clamp(2.1rem, 4.4vw, 3.2rem); font-weight:800; line-height:1.08; margin-bottom:20px; }
+  h1 .grad{
+    background: var(--grad-text); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+  }
+  .lede{ font-size:1.08rem; color: var(--ink-soft); max-width:52ch; margin-bottom:30px; }
+
+  .cta-row{ display:flex; gap:14px; flex-wrap:wrap; margin-bottom:44px; }
+  .btn{
+    display:inline-flex; align-items:center; gap:8px; font-weight:700; font-size:0.95rem;
+    padding: 14px 24px; border-radius:9px; border:1px solid transparent;
+  }
+  .btn-primary{ background: var(--grad); color:#04121a; box-shadow: var(--glow); }
+  .btn-secondary{ background: rgba(255,255,255,0.03); color: var(--ink); border-color: var(--border); }
+  .btn-secondary:hover{ border-color: var(--border-strong); }
+
+  .stats{ display:grid; grid-template-columns: repeat(3, minmax(150px,1fr)); gap:24px; border-top:1px solid var(--border); padding-top:26px; }
+  @media (max-width: 720px){ .stats{ grid-template-columns: 1fr 1fr; } }
+  .stat b{ display:block; font-family:'JetBrains Mono', monospace; font-weight:700; font-size:1.35rem; color: var(--cyan); margin-bottom:4px; }
+  .stat span{ font-size:0.86rem; color: var(--ink-soft); max-width: 20ch; display:block; }
+
+  /* hero visual */
+  .hero-visual{ position:relative; display:flex; align-items:center; justify-content:center; }
+  .hero-visual .halo{
+    position:absolute; width:340px; height:340px; border-radius:50%;
+    background: radial-gradient(circle, rgba(0,240,255,0.18) 0%, rgba(0,102,255,0.08) 45%, transparent 70%);
+    filter: blur(2px);
+  }
+  .hero-visual svg{ position:relative; width: 100%; max-width:380px; height:auto; }
+  @media (max-width: 900px){ .hero-visual{ margin-top:8px; } .hero-visual svg{ max-width:280px; } }
+
+  /* ---------- generic section chrome ---------- */
+  section{ padding: 76px 0; }
+  .section-head{ max-width: 640px; margin-bottom: 44px; }
+  .section-head h2{ font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight:700; margin: 10px 0 12px; }
+  .section-head p{ color: var(--ink-soft); font-size:1rem; }
+  .divider{ border:none; border-top:1px solid var(--border); margin:0; }
+
+  /* ---------- product shot ---------- */
+  .frame{
+    border-radius:14px; overflow:hidden; border:1px solid var(--border-strong);
+    box-shadow: 0 0 50px rgba(0,210,255,0.10); background: var(--bg-raised);
+  }
+  .frame-bar{
+    display:flex; align-items:center; gap:16px; padding:11px 16px;
+    background: rgba(255,255,255,0.03); border-bottom:1px solid var(--border);
+  }
+  .frame-dots{ display:flex; gap:6px; flex:none; }
+  .frame-dots span{ width:10px; height:10px; border-radius:50%; background: rgba(255,255,255,0.14); }
+  .frame-url{
+    font-family:'JetBrains Mono', monospace; font-size:0.76rem; color: var(--ink-faint);
+    background: rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:6px;
+    padding:5px 12px; flex:1; text-overflow:ellipsis; overflow:hidden; white-space:nowrap;
+  }
+  .frame img{ display:block; width:100%; height:auto; }
+  .shot-tags{ display:flex; flex-wrap:wrap; gap:12px; margin-top:24px; }
+  .shot-tag{
+    display:flex; align-items:center; gap:9px; font-size:0.86rem; color: var(--ink-soft);
+    background: var(--card); border:1px solid var(--border); border-radius:999px; padding:9px 16px;
+  }
+  .shot-tag .dot{ width:7px; height:7px; border-radius:50%; background: var(--cyan); flex:none; box-shadow:0 0 6px var(--cyan); }
+
+  /* ---------- pillars ---------- */
+  .pillars{ display:grid; grid-template-columns: repeat(4,1fr); gap:18px; }
+  @media (max-width: 980px){ .pillars{ grid-template-columns: repeat(2,1fr); } }
+  @media (max-width: 560px){ .pillars{ grid-template-columns: 1fr; } }
+  .pillar{
+    background: var(--card); border:1px solid var(--border); border-radius:12px; padding:26px 22px;
+  }
+  .pillar .ic{ font-size:1.6rem; margin-bottom:14px; display:block; }
+  .pillar h3{ font-size:1.08rem; font-weight:700; margin-bottom:9px; }
+  .pillar p{ font-size:0.9rem; color: var(--ink-soft); margin:0; }
+
+  /* ---------- matrix ---------- */
+  .matrix{ display:grid; grid-template-columns: repeat(3,1fr); gap:22px; }
+  @media (max-width: 860px){ .matrix{ grid-template-columns:1fr; } }
+  .matrix-col{ background: var(--card); border:1px solid var(--border); border-radius:12px; padding:24px 24px 26px; }
+  .matrix-col h3{
+    font-size:0.78rem; letter-spacing:0.1em; text-transform:uppercase; color: var(--cyan);
+    font-family:'JetBrains Mono', monospace; font-weight:500; margin-bottom:16px;
+  }
+  .matrix-col ul{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:12px; }
+  .matrix-col li{ font-size:0.92rem; display:flex; gap:10px; align-items:flex-start; }
+  .matrix-col li svg{ flex:none; margin-top:3px; width:14px; height:14px; }
+
+  /* ---------- comparison ---------- */
+  .compare{ display:grid; grid-template-columns: 1fr 1fr; gap:20px; }
+  @media (max-width: 780px){ .compare{ grid-template-columns:1fr; } }
+  .compare-panel{ border-radius:14px; padding:28px 26px; }
+  .compare-panel.win{ background: var(--card-strong); border:1px solid var(--border-strong); box-shadow: 0 0 30px rgba(0,210,255,0.08); }
+  .compare-panel.lose{ background: rgba(255,255,255,0.02); border:1px solid var(--border); opacity:0.85; }
+  .compare-panel .kicker{ font-family:'JetBrains Mono', monospace; font-size:0.74rem; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:10px; display:block; }
+  .compare-panel.win .kicker{ color: var(--cyan); }
+  .compare-panel.lose .kicker{ color: var(--ink-faint); }
+  .compare-panel h3{ font-size:1.2rem; margin-bottom:16px; }
+  .compare-panel ul{ margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:11px; }
+  .compare-panel li{ font-size:0.92rem; color: var(--ink-soft); display:flex; gap:10px; }
+  .compare-panel.win li{ color: var(--ink); }
+  .compare-panel li .m{ flex:none; }
+  .compare-panel.win li .m{ color: var(--cyan); }
+  .compare-panel.lose li .m{ color: var(--ink-faint); }
+
+  /* ---------- roadmap ---------- */
+  .roadmap{ display:grid; grid-template-columns: repeat(4,1fr); gap:18px; }
+  @media (max-width: 980px){ .roadmap{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width: 560px){ .roadmap{ grid-template-columns:1fr; } }
+  .step{ position:relative; padding: 26px 20px 22px; background: var(--card); border:1px solid var(--border); border-radius:12px; }
+  .step .n{
+    font-family:'JetBrains Mono', monospace; font-weight:700; font-size:0.85rem;
+    color:#04121a; background: var(--grad); width:34px; height:34px; border-radius:8px;
+    display:flex; align-items:center; justify-content:center; margin-bottom:16px;
+  }
+  .step h3{ font-size:1rem; font-weight:700; margin-bottom:8px; }
+  .step p{ font-size:0.88rem; color: var(--ink-soft); margin:0; }
+
+  /* ---------- cta ---------- */
+  .cta-band{
+    background: var(--card-strong); border:1px solid var(--border-strong);
+    border-radius:18px; padding:52px 44px; text-align:center;
+    box-shadow: 0 0 50px rgba(0,210,255,0.08);
+  }
+  .cta-band .eyebrow{ justify-content:center; }
+  .cta-band h2{ font-size: clamp(1.6rem,3.4vw,2.3rem); margin: 6px 0 16px; }
+  .cta-band p{ color: var(--ink-soft); max-width:58ch; margin:0 auto 30px; }
+  .cta-band .cta-row{ justify-content:center; margin-bottom:0; }
+  .pill-note{
+    margin-top:22px; display:inline-flex; align-items:center; gap:8px;
+    font-family:'JetBrains Mono', monospace; font-size:0.76rem; letter-spacing:0.04em;
+    color: var(--ink-faint); border:1px solid var(--border); border-radius:999px; padding:7px 14px;
+  }
+  .pill-note b{ color: var(--cyan); font-weight:600; }
+
+  /* ---------- footer ---------- */
+  footer{ border-top:1px solid var(--border); padding: 54px 0 30px; }
+  .foot-grid{ display:grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap:32px; margin-bottom:40px; }
+  @media (max-width: 780px){ .foot-grid{ grid-template-columns: 1fr 1fr; } }
+  .foot-brand p{ color: var(--ink-soft); font-size:0.9rem; max-width:32ch; margin-top:12px; }
+  footer h4{ font-family:'JetBrains Mono', monospace; font-size:0.75rem; letter-spacing:0.08em; text-transform:uppercase; color: var(--ink-faint); margin-bottom:14px; }
+  footer ul{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px; }
+  footer li{ font-size:0.9rem; color: var(--ink-soft); }
+  .foot-bottom{
+    border-top:1px solid var(--border); padding-top:22px; display:flex; justify-content:space-between;
+    flex-wrap:wrap; gap:10px; font-size:0.8rem; color: var(--ink-faint);
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-field"></div>
+
+<nav>
+  <div class="nav-inner">
+    <div class="brand">
+      <img src="logo-transparente.png" alt="Logo One IT World" width="32" height="32">
+      ONE IT WORLD
+    </div>
+    <div class="nav-links">
+      <a href="#producto" data-i18n="nav_producto">El producto</a>
+      <a href="#como-funciona" data-i18n="nav_como">Cómo funciona</a>
+      <a href="#cobertura" data-i18n="nav_recolecta">Qué recolecta</a>
+      <a href="#comparacion" data-i18n="nav_sinagentes">Sin agentes</a>
+      <a href="#roadmap" data-i18n="nav_despliegue">Despliegue</a>
+    </div>
+    <div class="nav-right">
+      <div class="lang-switch">
+        <button type="button" class="lang-btn active" id="btn-es" onclick="setLanguage('es')">ES</button>
+        <button type="button" class="lang-btn" id="btn-en" onclick="setLanguage('en')">EN</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <section class="hero">
+    <div>
+      <p class="eyebrow mono" data-i18n="hero_eyebrow">Discovery &amp; CMDB para migraciones críticas</p>
+      <h1><span data-i18n="hero_title_1">Documentación de infraestructura que </span><span class="grad" data-i18n="hero_title_gradient">nunca se desincroniza</span><span data-i18n="hero_title_2"> de producción</span></h1>
+      <p class="lede" data-i18n="hero_lede">Descubre, certifica y entrega evidencia firmada de cada máquina que migras — sin instalar nada, sin degradar el servicio, y sin depender de que alguien actualice un documento a mano.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#acceso" data-i18n="hero_cta_primary">Solicitar acceso anticipado →</a>
+        <a class="btn btn-secondary" href="#comparacion" data-i18n="hero_cta_secondary">Ver cómo se recolecta</a>
+      </div>
+      <div class="stats">
+        <div class="stat"><b data-i18n="stat1_val">CERO</b><span data-i18n="stat1_label">Software instalado en la máquina productiva</span></div>
+        <div class="stat"><b data-i18n="stat2_val">SHA-256</b><span data-i18n="stat2_label">Firma criptográfica en cada snapshot</span></div>
+        <div class="stat"><b data-i18n="stat3_val">Cumple / no cumple</b><span data-i18n="stat3_label">Veredicto automático contra la línea base</span></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="halo"></div>
+      <svg viewBox="0 0 360 360" role="img" aria-label="Diagrama de un escaneo de máquina: un nodo central rodeado de anillos de escaneo y sus dependencias conectadas" data-i18n-aria="hero_svg_aria">
+        <defs>
+          <linearGradient id="nodeg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00f0ff"/><stop offset="1" stop-color="#0066ff"/></linearGradient>
+        </defs>
+        <circle cx="180" cy="180" r="168" fill="none" stroke="#00f0ff" stroke-opacity="0.14" stroke-dasharray="2 8"/>
+        <circle cx="180" cy="180" r="128" fill="none" stroke="#00f0ff" stroke-opacity="0.20" stroke-dasharray="2 7"/>
+        <circle cx="180" cy="180" r="88" fill="none" stroke="#00f0ff" stroke-opacity="0.28"/>
+
+        <line x1="180" y1="180" x2="180" y2="46"  stroke="#00f0ff" stroke-opacity="0.35"/>
+        <line x1="180" y1="180" x2="300" y2="120" stroke="#00f0ff" stroke-opacity="0.35"/>
+        <line x1="180" y1="180" x2="300" y2="245" stroke="#00f0ff" stroke-opacity="0.35"/>
+        <line x1="180" y1="180" x2="180" y2="316" stroke="#00f0ff" stroke-opacity="0.35"/>
+        <line x1="180" y1="180" x2="58"  y2="245" stroke="#00f0ff" stroke-opacity="0.35"/>
+        <line x1="180" y1="180" x2="58"  y2="120" stroke="#00f0ff" stroke-opacity="0.35"/>
+
+        <circle cx="180" cy="46"  r="8" fill="#0b1224" stroke="url(#nodeg)" stroke-width="2"/>
+        <circle cx="300" cy="120" r="8" fill="#0b1224" stroke="url(#nodeg)" stroke-width="2"/>
+        <circle cx="300" cy="245" r="8" fill="#0b1224" stroke="url(#nodeg)" stroke-width="2"/>
+        <circle cx="180" cy="316" r="8" fill="#0b1224" stroke="url(#nodeg)" stroke-width="2"/>
+        <circle cx="58"  cy="245" r="8" fill="#0b1224" stroke="url(#nodeg)" stroke-width="2"/>
+        <circle cx="58"  cy="120" r="8" fill="#0b1224" stroke="url(#nodeg)" stroke-width="2"/>
+
+        <text x="180" y="34" text-anchor="middle" font-size="15" font-family="JetBrains Mono, monospace" font-weight="600" fill="#00f0ff">app</text>
+        <text x="316" y="118" text-anchor="middle" font-size="15" font-family="JetBrains Mono, monospace" font-weight="600" fill="#00f0ff">db</text>
+        <text x="316" y="249" text-anchor="middle" font-size="15" font-family="JetBrains Mono, monospace" font-weight="600" fill="#00f0ff">net</text>
+        <text x="180" y="335" text-anchor="middle" font-size="15" font-family="JetBrains Mono, monospace" font-weight="600" fill="#00f0ff">svc</text>
+        <text x="44" y="249" text-anchor="middle" font-size="15" font-family="JetBrains Mono, monospace" font-weight="600" fill="#00f0ff">ext</text>
+        <text x="44" y="118" text-anchor="middle" font-size="15" font-family="JetBrains Mono, monospace" font-weight="600" fill="#00f0ff">api</text>
+
+        <rect x="150" y="150" width="60" height="60" rx="10" fill="url(#nodeg)"/>
+        <rect x="160" y="164" width="40" height="5" rx="2" fill="#04121a"/>
+        <rect x="160" y="176" width="40" height="5" rx="2" fill="#04121a"/>
+        <rect x="160" y="188" width="26" height="5" rx="2" fill="#04121a"/>
+      </svg>
+    </div>
+  </section>
+
+  <hr class="divider"/>
+
+  <section id="producto">
+    <div class="section-head">
+      <p class="eyebrow mono" data-i18n="producto_eyebrow">El producto</p>
+      <h2 data-i18n="producto_title">Así se ve un snapshot certificado</h2>
+      <p data-i18n="producto_desc">Panel real de OIDP Enterprise: estado de gobierno, topología de dependencias, y los formatos de evidencia listos para exportar en un clic.</p>
+    </div>
+    <div class="frame">
+      <div class="frame-bar">
+        <div class="frame-dots"><span></span><span></span><span></span></div>
+        <div class="frame-url">oidp.oneitworld.internal/machines/c5a55d93351d49ccb8b54c3f9f1bbf1a</div>
+      </div>
+      <img src="oidp.png" alt="Panel de OIDP Enterprise mostrando el estado de gobierno de una máquina, con una alerta de drift detectado, topología de red y dependencias, matriz de flujos y servicios, inventario de hardware, procesos JVM y contenedores activos." data-i18n-alt="producto_alt">
+    </div>
+    <div class="shot-tags">
+      <span class="shot-tag"><span class="dot"></span><span data-i18n="shot_tag1">Drift detectado automáticamente contra la línea base</span></span>
+      <span class="shot-tag"><span class="dot"></span><span data-i18n="shot_tag2">Seis formatos de evidencia a un clic: HTML, PDF, Passport, JSON, Markdown, ZIP</span></span>
+      <span class="shot-tag"><span class="dot"></span><span data-i18n="shot_tag3">Topología de red y matriz de flujos en vivo</span></span>
+      <span class="shot-tag"><span class="dot"></span><span data-i18n="shot_tag4">Inventario de hardware, procesos JVM y contenedores activos</span></span>
+    </div>
+  </section>
+
+  <hr class="divider"/>
+
+  <section id="como-funciona">
+    <div class="section-head">
+      <p class="eyebrow mono" data-i18n="como_eyebrow">Cómo funciona</p>
+      <h2 data-i18n="como_title">Cuatro movimientos, una sola fuente de verdad</h2>
+      <p data-i18n="como_desc">Diseñado para producción crítica: nada se instala, nada se degrada, todo queda firmado.</p>
+    </div>
+    <div class="pillars">
+      <div class="pillar"><span class="ic">🔍</span><h3 data-i18n="pillar1_title">Discovery no intrusivo</h3><p data-i18n="pillar1_desc">Solo comandos ya presentes en el sistema operativo. Cero agentes, cero instalación, cero degradación medible.</p></div>
+      <div class="pillar"><span class="ic">📸</span><h3 data-i18n="pillar2_title">Snapshot y línea base</h3><p data-i18n="pillar2_desc">Cada corrida es una fotografía de la máquina, comparada automáticamente contra su línea base.</p></div>
+      <div class="pillar"><span class="ic">🔐</span><h3 data-i18n="pillar3_title">Evidencia firmada</h3><p data-i18n="pillar3_desc">Cada archivo lleva su propia firma SHA-256. Cualquier alteración se detecta al instante.</p></div>
+      <div class="pillar"><span class="ic">📄</span><h3 data-i18n="pillar4_title">Documentación multi-formato</h3><p data-i18n="pillar4_desc">Un mismo snapshot se convierte en ficha HTML ejecutiva, Markdown técnico con diagramas, y JSON auditable.</p></div>
+    </div>
+  </section>
+
+  <section id="cobertura">
+    <div class="section-head">
+      <p class="eyebrow mono" data-i18n="cobertura_eyebrow">Profundidad técnica</p>
+      <h2 data-i18n="cobertura_title">Qué se recolecta, por categoría</h2>
+      <p data-i18n="cobertura_desc">El mismo nivel de detalle que hoy exige un anexo técnico de migración — generado por script, no a mano.</p>
+    </div>
+    <div class="matrix">
+      <div class="matrix-col">
+        <h3 data-i18n="col1_title">Sistema y hardware</h3>
+        <ul>
+          <li><svg viewBox="0 0 16 16"><path d="M2 8l4 4 8-8" fill="none" stroke="#00f0ff" stroke-width="2"/></svg><span data-i18n="col1_i1">CPU, memoria y almacenamiento</span></li>
+          <li><svg viewBox="0 0 16 16"><path d="M2 8l4 4 8-8" fill="none" stroke="#00f0ff" stroke-width="2"/></svg><span data-i18n="col1_i2">Virtualización y contenedores activos</span></li>
+          <li><svg viewBox="0 0 16 16"><path d="M2 8l4 4 8-8" fill="none" stroke="#00f0ff" stroke-width="2"/></svg><span data-i18n="col1_i3">Sistema operativo, kernel y paquetes</span></li>
+          <li><svg viewBox="0 0 16 16"><path d="M2 8l4 4 8-8" fill="none" stroke="#00f0ff" stroke-width="2"/></svg><span data-i18n="col1_i4">Procesos, servicios y tareas batch</span></li>
+        </ul>
+      </div>
+      <div class="matrix-col">
+        <h3 data-i18n="col2_title">Red y dependencias</h3>
+        <ul>
+          <li><svg viewBox="0 0 16 16"><path d="M2 8l4 4 8-8" fill="none" stroke="#00f0ff" stroke-width="2"/></svg><span data-i18n="col2_i1">Interfaces, puertos y protocolos expuestos</span></li>
+          <li><svg viewBox="0 0 16 16"><path d="M2 8l4 4 8-8" fill="none" stroke="#00f0ff" stroke-width="2"/></svg><span data-i18n="col2_i2">Dependencias entrantes y salientes por servicio</span></li>
+          <li><svg viewBox="0 0 16 16"><path d="M2 8l4 4 8-8" fill="none" stroke="#00f0ff" stroke-width="2"/></svg><span data-i18n="col2_i3">Tablas de enrutamiento y resolución DNS</span></li>
+          <li><svg viewBox="0 0 16 16"><path d="M2 8l4 4 8-8" fill="none" stroke="#00f0ff" stroke-width="2"/></svg><span data-i18n="col2_i4">Diagrama de dependencias en Mermaid</span></li>
+        </ul>
+      </div>
+      <div class="matrix-col">
+        <h3 data-i18n="col3_title">Cumplimiento y evidencia</h3>
+        <ul>
+          <li><svg viewBox="0 0 16 16"><path d="M2 8l4 4 8-8" fill="none" stroke="#00f0ff" stroke-width="2"/></svg><span data-i18n="col3_i1">Snapshot vs. línea base, con reporte DREV</span></li>
+          <li><svg viewBox="0 0 16 16"><path d="M2 8l4 4 8-8" fill="none" stroke="#00f0ff" stroke-width="2"/></svg><span data-i18n="col3_i2">Pasaporte único de máquina, persistente ante renombres</span></li>
+          <li><svg viewBox="0 0 16 16"><path d="M2 8l4 4 8-8" fill="none" stroke="#00f0ff" stroke-width="2"/></svg><span data-i18n="col3_i3">Bundle de evidencia firmado (PDF, JSON, diagrama, manifiesto)</span></li>
+          <li><svg viewBox="0 0 16 16"><path d="M2 8l4 4 8-8" fill="none" stroke="#00f0ff" stroke-width="2"/></svg><span data-i18n="col3_i4">Historial completo con certificador y timestamp</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="comparacion">
+    <div class="section-head">
+      <p class="eyebrow mono" data-i18n="comparacion_eyebrow">La diferencia</p>
+      <h2 data-i18n="comparacion_title">Sin agentes, sin riesgo</h2>
+      <p data-i18n="comparacion_desc">La mayoría de las herramientas de discovery piden instalar un agente. En producción crítica, eso no siempre es una opción.</p>
+    </div>
+    <div class="compare">
+      <div class="compare-panel win">
+        <span class="kicker mono" data-i18n="win_kicker">Este enfoque</span>
+        <h3 data-i18n="win_title">Comandos nativos del sistema</h3>
+        <ul>
+          <li><span class="m">✓</span><span data-i18n="win_li1">Cero instalación y cero huella adicional en la máquina</span></li>
+          <li><span class="m">✓</span><span data-i18n="win_li2">Sin riesgo medible de degradar el servicio en producción</span></li>
+          <li><span class="m">✓</span><span data-i18n="win_li3">Funciona hoy en Ubuntu 24.04/26.04 LTS, extensible por adaptador</span></li>
+          <li><span class="m">✓</span><span data-i18n="win_li4">Cada extracción queda firmada y es auditable</span></li>
+        </ul>
+      </div>
+      <div class="compare-panel lose">
+        <span class="kicker mono" data-i18n="lose_kicker">Discovery tradicional</span>
+        <h3 data-i18n="lose_title">Agente instalado por máquina</h3>
+        <ul>
+          <li><span class="m">–</span><span data-i18n="lose_li1">Requiere instalar y mantener un agente en cada servidor</span></li>
+          <li><span class="m">–</span><span data-i18n="lose_li2">Consumo adicional constante de CPU y memoria</span></li>
+          <li><span class="m">–</span><span data-i18n="lose_li3">Cada actualización del agente es un cambio más que certificar</span></li>
+          <li><span class="m">–</span><span data-i18n="lose_li4">Un punto más de superficie de ataque en producción</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="roadmap">
+    <div class="section-head">
+      <p class="eyebrow mono" data-i18n="roadmap_eyebrow">De cero a certificado</p>
+      <h2 data-i18n="roadmap_title">Cómo se despliega</h2>
+      <p data-i18n="roadmap_desc">Cuatro pasos, del primer script al bundle de evidencia listo para auditoría.</p>
+    </div>
+    <div class="roadmap">
+      <div class="step"><span class="n mono">01</span><h3 data-i18n="step1_title">Conectar</h3><p data-i18n="step1_desc">Se ejecuta el script por línea de comandos; no requiere instalación ni acceso persistente.</p></div>
+      <div class="step"><span class="n mono">02</span><h3 data-i18n="step2_title">Recolectar</h3><p data-i18n="step2_desc">El agente temporal lee la configuración con comandos nativos y genera el JSON firmado.</p></div>
+      <div class="step"><span class="n mono">03</span><h3 data-i18n="step3_title">Comparar</h3><p data-i18n="step3_desc">El snapshot se compara contra la línea base; se calcula el DREV con el veredicto cumple / no cumple.</p></div>
+      <div class="step"><span class="n mono">04</span><h3 data-i18n="step4_title">Certificar y entregar</h3><p data-i18n="step4_desc">Se genera el bundle de evidencia — cinco archivos firmados, listos para auditoría o pago.</p></div>
+    </div>
+  </section>
+
+  <section id="acceso">
+    <div class="cta-band">
+      <p class="eyebrow mono" data-i18n="acceso_eyebrow">Programa de acceso anticipado</p>
+      <h2 data-i18n="acceso_title">Buscamos 2–3 clientes fundacionales para definir el estándar</h2>
+      <p data-i18n="acceso_desc">La herramienta ya recolecta, compara y certifica. Lo que falta es un caso real que la ponga a prueba — y quien entre ahora ayuda a definir cómo se certifica esta categoría.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="https://calendar.app.google/fz8AokMunm6mAase6" target="_blank" rel="noopener noreferrer" data-i18n="acceso_cta_secondary">Agendar Validación Técnica</a>
+      </div>
+      <div><span class="pill-note">● <b data-i18n="footer_e1">MVP funcional</b> · <span data-i18n="acceso_pill_rest">certificación de terceros en curso</span></span></div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="brand">
+          <img src="logo-transparente.png" alt="Logo One IT World" width="32" height="32">
+          ONE IT WORLD
+        </div>
+        <p data-i18n="footer_tagline">CMDB firmada y discovery no intrusivo para migraciones que no se pueden desincronizar.</p>
+      </div>
+      <div>
+        <h4 data-i18n="footer_col1">Producto</h4>
+        <ul><li data-i18n="pillar1_title">Discovery no intrusivo</li><li data-i18n="footer_p2">Snapshots y línea base</li><li data-i18n="pillar3_title">Evidencia firmada</li><li data-i18n="pillar4_title">Documentación multi-formato</li></ul>
+      </div>
+      <div>
+        <h4 data-i18n="footer_col2">Cobertura</h4>
+        <ul><li>Ubuntu 24.04 / 26.04 LTS</li><li data-i18n="footer_c2">Oracle Linux y RHEL (en plan)</li><li data-i18n="footer_c3">Docker y contenedores</li></ul>
+      </div>
+      <div>
+        <h4 data-i18n="footer_col3">Estado</h4>
+        <ul><li data-i18n="footer_e1">MVP funcional</li><li data-i18n="footer_e2">Certificación de terceros en curso</li><li data-i18n="footer_e3">Programa de acceso anticipado abierto</li></ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span data-i18n="footer_copy">© 2026 One IT World — construido a partir del demo técnico de Mauro.</span>
+      <span data-i18n="footer_status">MVP en validación · sin registro de propiedad intelectual todavía</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const translations = {
+    es: {
+      nav_producto: "El producto",
+      nav_como: "Cómo funciona",
+      nav_recolecta: "Qué recolecta",
+      nav_sinagentes: "Sin agentes",
+      nav_despliegue: "Despliegue",
+
+      hero_eyebrow: "Discovery & CMDB para migraciones críticas",
+      hero_title_1: "Documentación de infraestructura que ",
+      hero_title_gradient: "nunca se desincroniza",
+      hero_title_2: " de producción",
+      hero_lede: "Descubre, certifica y entrega evidencia firmada de cada máquina que migras — sin instalar nada, sin degradar el servicio, y sin depender de que alguien actualice un documento a mano.",
+      hero_cta_primary: "Solicitar acceso anticipado →",
+      hero_cta_secondary: "Ver cómo se recolecta",
+      hero_svg_aria: "Diagrama de un escaneo de máquina: un nodo central rodeado de anillos de escaneo y sus dependencias conectadas",
+      stat1_val: "CERO",
+      stat1_label: "Software instalado en la máquina productiva",
+      stat2_val: "SHA-256",
+      stat2_label: "Firma criptográfica en cada snapshot",
+      stat3_val: "Cumple / no cumple",
+      stat3_label: "Veredicto automático contra la línea base",
+
+      producto_eyebrow: "El producto",
+      producto_title: "Así se ve un snapshot certificado",
+      producto_desc: "Panel real de OIDP Enterprise: estado de gobierno, topología de dependencias, y los formatos de evidencia listos para exportar en un clic.",
+      producto_alt: "Panel de OIDP Enterprise mostrando el estado de gobierno de una máquina, con una alerta de drift detectado, topología de red y dependencias, matriz de flujos y servicios, inventario de hardware, procesos JVM y contenedores activos.",
+      shot_tag1: "Drift detectado automáticamente contra la línea base",
+      shot_tag2: "Seis formatos de evidencia a un clic: HTML, PDF, Passport, JSON, Markdown, ZIP",
+      shot_tag3: "Topología de red y matriz de flujos en vivo",
+      shot_tag4: "Inventario de hardware, procesos JVM y contenedores activos",
+
+      como_eyebrow: "Cómo funciona",
+      como_title: "Cuatro movimientos, una sola fuente de verdad",
+      como_desc: "Diseñado para producción crítica: nada se instala, nada se degrada, todo queda firmado.",
+      pillar1_title: "Discovery no intrusivo",
+      pillar1_desc: "Solo comandos ya presentes en el sistema operativo. Cero agentes, cero instalación, cero degradación medible.",
+      pillar2_title: "Snapshot y línea base",
+      pillar2_desc: "Cada corrida es una fotografía de la máquina, comparada automáticamente contra su línea base.",
+      pillar3_title: "Evidencia firmada",
+      pillar3_desc: "Cada archivo lleva su propia firma SHA-256. Cualquier alteración se detecta al instante.",
+      pillar4_title: "Documentación multi-formato",
+      pillar4_desc: "Un mismo snapshot se convierte en ficha HTML ejecutiva, Markdown técnico con diagramas, y JSON auditable.",
+
+      cobertura_eyebrow: "Profundidad técnica",
+      cobertura_title: "Qué se recolecta, por categoría",
+      cobertura_desc: "El mismo nivel de detalle que hoy exige un anexo técnico de migración — generado por script, no a mano.",
+      col1_title: "Sistema y hardware",
+      col1_i1: "CPU, memoria y almacenamiento",
+      col1_i2: "Virtualización y contenedores activos",
+      col1_i3: "Sistema operativo, kernel y paquetes",
+      col1_i4: "Procesos, servicios y tareas batch",
+      col2_title: "Red y dependencias",
+      col2_i1: "Interfaces, puertos y protocolos expuestos",
+      col2_i2: "Dependencias entrantes y salientes por servicio",
+      col2_i3: "Tablas de enrutamiento y resolución DNS",
+      col2_i4: "Diagrama de dependencias en Mermaid",
+      col3_title: "Cumplimiento y evidencia",
+      col3_i1: "Snapshot vs. línea base, con reporte DREV",
+      col3_i2: "Pasaporte único de máquina, persistente ante renombres",
+      col3_i3: "Bundle de evidencia firmado (PDF, JSON, diagrama, manifiesto)",
+      col3_i4: "Historial completo con certificador y timestamp",
+
+      comparacion_eyebrow: "La diferencia",
+      comparacion_title: "Sin agentes, sin riesgo",
+      comparacion_desc: "La mayoría de las herramientas de discovery piden instalar un agente. En producción crítica, eso no siempre es una opción.",
+      win_kicker: "Este enfoque",
+      win_title: "Comandos nativos del sistema",
+      win_li1: "Cero instalación y cero huella adicional en la máquina",
+      win_li2: "Sin riesgo medible de degradar el servicio en producción",
+      win_li3: "Funciona hoy en Ubuntu 24.04/26.04 LTS, extensible por adaptador",
+      win_li4: "Cada extracción queda firmada y es auditable",
+      lose_kicker: "Discovery tradicional",
+      lose_title: "Agente instalado por máquina",
+      lose_li1: "Requiere instalar y mantener un agente en cada servidor",
+      lose_li2: "Consumo adicional constante de CPU y memoria",
+      lose_li3: "Cada actualización del agente es un cambio más que certificar",
+      lose_li4: "Un punto más de superficie de ataque en producción",
+
+      roadmap_eyebrow: "De cero a certificado",
+      roadmap_title: "Cómo se despliega",
+      roadmap_desc: "Cuatro pasos, del primer script al bundle de evidencia listo para auditoría.",
+      step1_title: "Conectar",
+      step1_desc: "Se ejecuta el script por línea de comandos; no requiere instalación ni acceso persistente.",
+      step2_title: "Recolectar",
+      step2_desc: "El agente temporal lee la configuración con comandos nativos y genera el JSON firmado.",
+      step3_title: "Comparar",
+      step3_desc: "El snapshot se compara contra la línea base; se calcula el DREV con el veredicto cumple / no cumple.",
+      step4_title: "Certificar y entregar",
+      step4_desc: "Se genera el bundle de evidencia — cinco archivos firmados, listos para auditoría o pago.",
+
+      acceso_eyebrow: "Programa de acceso anticipado",
+      acceso_title: "Buscamos 2–3 clientes fundacionales para definir el estándar",
+      acceso_desc: "La herramienta ya recolecta, compara y certifica. Lo que falta es un caso real que la ponga a prueba — y quien entre ahora ayuda a definir cómo se certifica esta categoría.",
+      acceso_cta_secondary: "Agendar Validación Técnica",
+      acceso_pill_rest: "certificación de terceros en curso",
+
+      footer_tagline: "CMDB firmada y discovery no intrusivo para migraciones que no se pueden desincronizar.",
+      footer_col1: "Producto",
+      footer_p2: "Snapshots y línea base",
+      footer_col2: "Cobertura",
+      footer_c2: "Oracle Linux y RHEL (en plan)",
+      footer_c3: "Docker y contenedores",
+      footer_col3: "Estado",
+      footer_e1: "MVP funcional",
+      footer_e2: "Certificación de terceros en curso",
+      footer_e3: "Programa de acceso anticipado abierto",
+      footer_copy: "© 2026 One IT World — construido a partir del demo técnico de Mauro.",
+      footer_status: "MVP en validación · sin registro de propiedad intelectual todavía"
+    },
+    en: {
+      nav_producto: "The product",
+      nav_como: "How it works",
+      nav_recolecta: "What it collects",
+      nav_sinagentes: "No agents",
+      nav_despliegue: "Deployment",
+
+      hero_eyebrow: "Discovery & CMDB for critical migrations",
+      hero_title_1: "Infrastructure documentation that ",
+      hero_title_gradient: "never drifts out of sync",
+      hero_title_2: " with production",
+      hero_lede: "Discover, certify, and deliver signed evidence for every machine you migrate — with nothing installed, nothing degraded, and no one left updating a document by hand.",
+      hero_cta_primary: "Request early access →",
+      hero_cta_secondary: "See how it collects data",
+      hero_svg_aria: "Diagram of a machine scan: a central node surrounded by scan rings and its connected dependencies",
+      stat1_val: "ZERO",
+      stat1_label: "Software installed on the production host",
+      stat2_val: "SHA-256",
+      stat2_label: "Cryptographic signature on every snapshot",
+      stat3_val: "Pass / fail",
+      stat3_label: "Automatic verdict against the baseline",
+
+      producto_eyebrow: "The product",
+      producto_title: "This is what a certified snapshot looks like",
+      producto_desc: "The real OIDP Enterprise panel: governance status, dependency topology, and evidence formats ready to export in one click.",
+      producto_alt: "OIDP Enterprise panel showing a machine's governance status with a drift alert, network and dependency topology, the flow and service matrix, hardware inventory, JVM processes, and running containers.",
+      shot_tag1: "Drift detected automatically against the baseline",
+      shot_tag2: "Six evidence formats in one click: HTML, PDF, Passport, JSON, Markdown, ZIP",
+      shot_tag3: "Live network topology and flow matrix",
+      shot_tag4: "Hardware inventory, JVM processes, and running containers",
+
+      como_eyebrow: "How it works",
+      como_title: "Four moves, one single source of truth",
+      como_desc: "Built for critical production: nothing installed, nothing degraded, everything signed.",
+      pillar1_title: "Non-intrusive discovery",
+      pillar1_desc: "Only commands already present on the OS. Zero agents, zero installs, zero measurable degradation.",
+      pillar2_title: "Snapshot and baseline",
+      pillar2_desc: "Every run is a snapshot of the machine, automatically compared against its baseline.",
+      pillar3_title: "Signed evidence",
+      pillar3_desc: "Every file carries its own SHA-256 signature. Any tampering is caught instantly.",
+      pillar4_title: "Multi-format documentation",
+      pillar4_desc: "One snapshot becomes an executive HTML sheet, technical Markdown with diagrams, and auditable JSON.",
+
+      cobertura_eyebrow: "Technical depth",
+      cobertura_title: "What gets collected, by category",
+      cobertura_desc: "The same level of detail a migration's technical annex demands today — generated by script, not by hand.",
+      col1_title: "System & hardware",
+      col1_i1: "CPU, memory, and storage",
+      col1_i2: "Virtualization and running containers",
+      col1_i3: "Operating system, kernel, and packages",
+      col1_i4: "Processes, services, and batch jobs",
+      col2_title: "Network & dependencies",
+      col2_i1: "Interfaces, exposed ports, and protocols",
+      col2_i2: "Inbound and outbound dependencies per service",
+      col2_i3: "Routing tables and DNS resolution",
+      col2_i4: "Dependency diagram in Mermaid",
+      col3_title: "Compliance & evidence",
+      col3_i1: "Snapshot vs. baseline, with a drift (DREV) report",
+      col3_i2: "A unique machine passport that survives renames",
+      col3_i3: "Signed evidence bundle (PDF, JSON, diagram, manifest)",
+      col3_i4: "Full history with certifier and timestamp",
+
+      comparacion_eyebrow: "The difference",
+      comparacion_title: "No agents, no risk",
+      comparacion_desc: "Most discovery tools ask you to install an agent. On critical production, that's not always an option.",
+      win_kicker: "This approach",
+      win_title: "Native system commands",
+      win_li1: "Zero install and zero extra footprint on the machine",
+      win_li2: "No measurable risk of degrading the service in production",
+      win_li3: "Works today on Ubuntu 24.04/26.04 LTS, extensible via adapter",
+      win_li4: "Every extraction is signed and auditable",
+      lose_kicker: "Traditional discovery",
+      lose_title: "An agent installed per machine",
+      lose_li1: "Requires installing and maintaining an agent on every server",
+      lose_li2: "Constant extra CPU and memory overhead",
+      lose_li3: "Every agent update is one more change to certify",
+      lose_li4: "One more attack surface in production",
+
+      roadmap_eyebrow: "From zero to certified",
+      roadmap_title: "How it deploys",
+      roadmap_desc: "Four steps, from the first script to an audit-ready evidence bundle.",
+      step1_title: "Connect",
+      step1_desc: "The script runs from the command line; no install and no persistent access required.",
+      step2_title: "Collect",
+      step2_desc: "A temporary agent reads the configuration with native commands and generates the signed JSON.",
+      step3_title: "Compare",
+      step3_desc: "The snapshot is compared against the baseline; the drift report (DREV) computes the pass/fail verdict.",
+      step4_title: "Certify & deliver",
+      step4_desc: "The evidence bundle is generated — five signed files, ready for audit or payment.",
+
+      acceso_eyebrow: "Early access program",
+      acceso_title: "We're looking for 2–3 founding clients to help define the standard",
+      acceso_desc: "The tool already collects, compares, and certifies. What's missing is a real case to put it to the test — and whoever comes in now helps define how this category gets certified.",
+      acceso_cta_secondary: "Schedule Technical Validation",
+      acceso_pill_rest: "third-party certification underway",
+
+      footer_tagline: "Signed CMDB and non-intrusive discovery for migrations that can't afford to drift.",
+      footer_col1: "Product",
+      footer_p2: "Snapshots and baseline",
+      footer_col2: "Coverage",
+      footer_c2: "Oracle Linux and RHEL (planned)",
+      footer_c3: "Docker and containers",
+      footer_col3: "Status",
+      footer_e1: "Functional MVP",
+      footer_e2: "Third-party certification underway",
+      footer_e3: "Early access program open",
+      footer_copy: "© 2026 One IT World — built from Mauro's technical demo.",
+      footer_status: "MVP under validation · no IP registration yet"
+    }
+  };
+
+  let currentLang = 'es';
+
+  function setLanguage(lang) {
+    if (!translations[lang]) return;
+    currentLang = lang;
+    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+    const activeBtn = document.getElementById('btn-' + lang);
+    if (activeBtn) activeBtn.classList.add('active');
+
+    const t = translations[lang];
+
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (t[key] !== undefined) el.textContent = t[key];
+    });
+    document.querySelectorAll('[data-i18n-alt]').forEach(el => {
+      const key = el.getAttribute('data-i18n-alt');
+      if (t[key] !== undefined) el.alt = t[key];
+    });
+    document.querySelectorAll('[data-i18n-aria]').forEach(el => {
+      const key = el.getAttribute('data-i18n-aria');
+      if (t[key] !== undefined) el.setAttribute('aria-label', t[key]);
+    });
+
+    document.documentElement.lang = lang;
+  }
+</script>
+</body>
+</html>

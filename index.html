@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
-    
+
     <style>
         :root {
             --bg-dark: #060B19;
@@ -39,20 +39,25 @@
             font-family: var(--font-body);
             line-height: 1.6;
             overflow-x: hidden;
-            background-image: 
-                radial-gradient(circle at 15% 20%, rgba(0, 102, 255, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 85% 60%, rgba(0, 240, 255, 0.1) 0%, transparent 40%);
         }
 
-        .bg-grid {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-size: 50px 50px;
-            background-image: 
-                linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+        .bg-field {
+            position: fixed;
+            inset: 0;
             z-index: -1;
             pointer-events: none;
+            background:
+                radial-gradient(circle at 15% 15%, rgba(0, 102, 255, 0.16) 0%, rgba(0, 0, 0, 0) 40%),
+                radial-gradient(circle at 85% 55%, rgba(0, 240, 255, 0.10) 0%, rgba(0, 0, 0, 0) 42%),
+                linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+                linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+            background-size: auto, auto, 44px 44px, 44px 44px;
+        }
+
+        @media (max-width: 600px) {
+            .bg-field {
+                background-size: auto, auto, 28px 28px, 28px 28px;
+            }
         }
 
         .container {
@@ -449,6 +454,13 @@
             align-items: center;
         }
 
+        .product-grid {
+            display: grid;
+            grid-template-columns: 1.3fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
         .contact-form {
             display: flex;
             flex-direction: column;
@@ -494,7 +506,7 @@
         }
 
         @media (max-width: 992px) {
-            .hero-grid, .matrix-grid, .cta-grid, .steps-grid {
+            .hero-grid, .matrix-grid, .cta-grid, .steps-grid, .product-grid {
                 grid-template-columns: 1fr;
             }
             .nav-links { display: none; }
@@ -505,7 +517,7 @@
 </head>
 <body>
 
-    <div class="bg-grid"></div>
+    <div class="bg-field"></div>
 
     <!-- 1. Header Navigation -->
     <header id="navbar">
@@ -521,7 +533,6 @@
                 <li><a href="#methodology" data-i18n="nav_methodology">Methodology</a></li>
             </ul>
             <div style="display: flex; align-items: center; gap: 16px;">
-                <a href="#contact" class="btn btn-primary" data-i18n="nav_cta">Schedule Architecture Review</a>
                 <!-- Language Selector -->
                 <div class="lang-switch">
                     <button id="btn-en" class="lang-btn active" onclick="setLanguage('en')">EN</button>
@@ -542,7 +553,7 @@
                 <p class="hero-subtitle" data-i18n="hero_subtitle">We design resilient, enterprise-grade architectures that empower organizations with total data sovereignty, autonomous AI capabilities, and scalable financial infrastructure.</p>
                 <div class="hero-ctas">
                     <a href="#capabilities" class="btn btn-primary" data-i18n="hero_btn_primary">Explore Enterprise Solutions →</a>
-                    <a href="#sovereignty" class="btn btn-secondary" data-i18n="hero_btn_secondary">View Case Studies</a>
+                    <a href="#contact" class="btn btn-secondary" data-i18n="hero_btn_secondary">Schedule Architecture Review</a>
                 </div>
                 <div class="metrics-strip">
                     <div class="metric-item">
@@ -605,7 +616,7 @@
         <div class="container">
             <span class="section-tag" data-i18n="matrix_tag">Technical Depth</span>
             <h2 class="section-title" data-i18n="matrix_title">Architectural Capabilities Matrix</h2>
-            
+
             <div class="matrix-grid">
                 <div class="matrix-column">
                     <h3 data-i18n="col_1_title">Cloud & Architecture</h3>
@@ -645,7 +656,7 @@
                 <span class="section-tag" data-i18n="spotlight_tag">Featured Solution Stack</span>
                 <h2 class="section-title" data-i18n="spotlight_title">The Sovereign AI & Data Stack</h2>
                 <p data-i18n="spotlight_desc">Uncompromising artificial intelligence capabilities without forfeiting data ownership or corporate privacy.</p>
-                
+
                 <div class="toggle-container">
                     <button class="toggle-btn active" data-tab="sovereign" onclick="updateSpotlightTab('sovereign')" data-i18n="toggle_sovereign">ONE IT WORLD Sovereign Stack</button>
                     <button class="toggle-btn" data-tab="public" onclick="updateSpotlightTab('public')" data-i18n="toggle_public">Standard Public Cloud Risk</button>
@@ -689,6 +700,23 @@
         </div>
     </section>
 
+    <!-- 6.5 Featured Product: OIDP Enterprise -->
+    <section class="spotlight" id="oidp-product">
+        <div class="container">
+            <div class="glass-card spotlight-box product-grid">
+                <div>
+                    <span class="section-tag" data-i18n="product_tag">Now in Technical Validation</span>
+                    <h2 class="section-title" style="font-size: 2rem;" data-i18n="product_title">OIDP Enterprise: Non-Intrusive Discovery &amp; Signed CMDB</h2>
+                    <p style="color: var(--text-muted); font-size: 1.05rem; max-width: 560px;" data-i18n="product_desc">A dedicated engineering product for teams running critical infrastructure migrations: automated non-intrusive discovery, cryptographically signed evidence, and a CMDB you can trust before you cut over. We're opening a limited technical validation program to engineering teams who want to put it to the test on real environments.</p>
+                </div>
+                <div style="text-align: center;">
+                    <img src="oidp2.png" alt="OIDP Enterprise — estado operacional en tiempo real" style="max-width: 220px; width: 100%; height: auto; border-radius: 12px; margin-bottom: 24px;">
+                    <a href="oidp-enterprise.html" class="btn btn-primary" style="width: 100%; justify-content: center;" data-i18n="product_cta">Explore OIDP Enterprise →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- 7. CTA / Contact Form -->
     <section class="cta-section" id="contact">
         <div class="container">
@@ -696,12 +724,19 @@
                 <div>
                     <span class="section-tag" data-i18n="cta_tag">Initiate Transformation</span>
                     <h2 class="section-title" data-i18n="cta_title">Ready to Redefine Your Enterprise Advantage?</h2>
-                    <p style="color: var(--text-muted);" data-i18n="cta_desc">Partner with world-class system architects to build secure, sovereign, and intelligent platforms.</p>
+                    <p style="color: var(--text-muted); margin-bottom: 24px;" data-i18n="cta_desc">Partner with world-class system architects to build secure, sovereign, and intelligent platforms.</p>
+
+                    <div style="padding: 20px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-glass); border-radius: 12px; margin-top: 20px;">
+                        <span style="font-family: var(--font-mono); color: var(--primary-cyan); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;" data-i18n="contact_ceo_title">Global Contact</span>
+                        <h4 style="font-family: var(--font-heading); color: var(--text-main); font-size: 1.1rem; margin-top: 4px;">MAURICIO NARANJO</h4>
+                        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 8px;" data-i18n="contact_ceo_role">CEO & Founder</p>
+                        <a href="mailto:mnaranjo@oneitworld.com" style="color: var(--primary-cyan); text-decoration: none; font-size: 0.9rem; font-weight: 500;">mnaranjo@oneitworld.com</a>
+                    </div>
                 </div>
                 <form class="contact-form" id="contactForm" onsubmit="handleContactSubmit(event)">
                     <input type="text" id="fullName" class="form-input" placeholder="Full Name" data-i18n-placeholder="form_name" required>
                     <input type="email" id="corporateEmail" class="form-input" placeholder="Corporate Email (e.g. name@company.com)" data-i18n-placeholder="form_email" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" title="Please enter a valid corporate email address">
-                    
+
                     <div style="display: flex; gap: 10px;">
                         <input type="text" id="countryCode" class="form-input" style="width: 35%;" placeholder="Country Code (+1, +57, etc.)" data-i18n-placeholder="form_country" pattern="^\+?[0-9]{1,4}$" title="e.g. +1 or +57">
                         <input type="text" id="whatsapp" class="form-input" style="width: 65%;" placeholder="WhatsApp / Telegram (Optional)" data-i18n-placeholder="form_whatsapp">
@@ -748,8 +783,16 @@
                     <p style="color: var(--text-muted); font-size: 0.85rem; line-height: 2;">TOGAF / ArchiMate<br>Zero-Trust Security<br>DORA / SEC Governance<br>AI Ethics</p>
                 </div>
                 <div>
-                    <h4 style="margin-bottom: 16px;" data-i18n="footer_col_3">Global</h4>
-                    <p style="color: var(--text-muted); font-size: 0.85rem; line-height: 2;">LinkedIn<br>YouTube Channel<br>Whitepapers<br>Contact Architecture Team</p>
+                    <h4 style="margin-bottom: 16px;" data-i18n="contact_ceo_title">Global Contact</h4>
+                    <p style="color: var(--text-main); font-weight: 700; font-size: 0.9rem; margin-bottom: 4px;" data-i18n="contact_ceo_name">MAURICIO NARANJO</p>
+                    <p style="color: var(--primary-cyan); font-size: 0.8rem; font-family: var(--font-mono); margin-bottom: 12px;" data-i18n="contact_ceo_role">CEO & Founder</p>
+                    <p style="font-size: 0.85rem; line-height: 2;">
+                        <a href="mailto:mnaranjo@oneitworld.com" style="color: var(--text-muted); text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='var(--primary-cyan)'" onmouseout="this.style.color='var(--text-muted)'">mnaranjo@oneitworld.com</a><br>
+                        <a href="https://www.youtube.com/@oneitworldchannel" target="_blank" rel="noopener" style="color: var(--primary-cyan); text-decoration: none; display: inline-flex; align-items: center; gap: 6px; margin-top: 6px; font-weight: 600;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                            YouTube Official
+                        </a>
+                    </p>
                 </div>
             </div>
             <div class="footer-bottom">
@@ -776,7 +819,7 @@
 
         function handleContactSubmit(event) {
             event.preventDefault();
-            
+
             const name = document.getElementById('fullName').value.trim();
             const email = document.getElementById('corporateEmail').value.trim();
             const countryCode = document.getElementById('countryCode').value.trim();
@@ -811,14 +854,13 @@
                 nav_sovereignty: "Digital Sovereignty",
                 nav_ai: "AI & Platforms",
                 nav_methodology: "Methodology",
-                nav_cta: "Schedule Architecture Review",
                 hero_tag: "Enterprise Technology Architecture",
                 hero_title_1: "Architecting ",
                 hero_title_gradient: "Digital Sovereignty",
                 hero_title_2: " & AI-Driven Platforms",
                 hero_subtitle: "We design resilient, enterprise-grade architectures that empower organizations with total data sovereignty, autonomous AI capabilities, and scalable financial infrastructure.",
                 hero_btn_primary: "Explore Enterprise Solutions →",
-                hero_btn_secondary: "View Case Studies",
+                hero_btn_secondary: "Schedule Architecture Review",
                 metric_1_title: "100%",
                 metric_1_desc: "Data Control & Sovereignty",
                 metric_2_title: "Zero-Trust",
@@ -868,6 +910,10 @@
                 step_3_desc: "Precision engineering, microservice rollout, and zero-downtime integration.",
                 step_4_title: "Govern & Scale",
                 step_4_desc: "Continuous compliance automation, security monitoring, and AI evolution.",
+                product_tag: "Now in Technical Validation",
+                product_title: "OIDP Enterprise: Non-Intrusive Discovery & Signed CMDB",
+                product_desc: "A dedicated engineering product for teams running critical infrastructure migrations: automated non-intrusive discovery, cryptographically signed evidence, and a CMDB you can trust before you cut over. We're opening a limited technical validation program to engineering teams who want to put it to the test on real environments.",
+                product_cta: "Explore OIDP Enterprise →",
                 cta_tag: "Initiate Transformation",
                 cta_title: "Ready to Redefine Your Enterprise Advantage?",
                 cta_desc: "Partner with world-class system architects to build secure, sovereign, and intelligent platforms.",
@@ -894,14 +940,13 @@
                 nav_sovereignty: "Soberanía Digital",
                 nav_ai: "IA y Plataformas",
                 nav_methodology: "Metodología",
-                nav_cta: "Agendar Revisión de Arquitectura",
                 hero_tag: "Arquitectura Tecnológica Empresarial",
                 hero_title_1: "Diseñando ",
                 hero_title_gradient: "Soberanía Digital",
                 hero_title_2: " y Plataformas impulsadas por IA",
                 hero_subtitle: "Diseñamos arquitecturas empresariales resilientes que otorgan a las organizaciones soberanía total de datos, capacidades de IA autónoma e infraestructura financiera escalable.",
                 hero_btn_primary: "Explorar Soluciones Empresariales →",
-                hero_btn_secondary: "Ver Casos de Estudio",
+                hero_btn_secondary: "Agendar Revisión de Arquitectura",
                 metric_1_title: "100%",
                 metric_1_desc: "Control y Soberanía de Datos",
                 metric_2_title: "Zero-Trust",
@@ -951,6 +996,10 @@
                 step_3_desc: "Ingeniería de precisión, despliegue de microservicios e integración con cero tiempo de inactividad.",
                 step_4_title: "Gobernar y Escalar",
                 step_4_desc: "Automatización de cumplimiento continuo, monitoreo de seguridad y evolución de la IA.",
+                product_tag: "¡Participa en la Validación Técnica!",
+                product_title: "OIDP Enterprise: Discovery no Intrusivo y CMDB Firmada",
+                product_desc: "Un producto de ingeniería para equipos que ejecutan migraciones críticas de infraestructura: discovery automatizado no intrusivo, evidencia firmada criptográficamente y una CMDB confiable antes del corte. Abrimos un programa limitado de validación técnica para equipos de ingeniería que quieran ponerlo a prueba en entornos reales.",
+                product_cta: "Conocer OIDP Enterprise →",
                 cta_tag: "Iniciar Transformación",
                 cta_title: "¿Listo para Redefinir su Ventaja Empresarial?",
                 cta_desc: "Asóciese con arquitectos de sistemas de nivel mundial para construir plataformas seguras, soberanas e inteligentes.",
