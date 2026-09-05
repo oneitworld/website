@@ -44,7 +44,6 @@
                 radial-gradient(circle at 85% 60%, rgba(0, 240, 255, 0.1) 0%, transparent 40%);
         }
 
-        /* Utility Classes & Grid Overlay */
         .bg-grid {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -123,7 +122,6 @@
             color: var(--primary-cyan);
         }
 
-        /* Section Headings */
         .section-tag {
             font-family: var(--font-mono);
             color: var(--primary-cyan);
@@ -149,7 +147,7 @@
             margin-bottom: 40px;
         }
 
-        /* 1. Header / Navbar */
+        /* Header Navigation & Language Switch */
         header {
             position: fixed;
             top: 0; left: 0; width: 100%;
@@ -183,23 +181,6 @@
             letter-spacing: 1px;
         }
 
-        .logo-sphere {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, #00F0FF, #0066FF 60%, #060B19);
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
-            position: relative;
-        }
-
-        .logo-sphere::after {
-            content: '';
-            position: absolute;
-            top: 50%; left: 0; width: 100%; height: 1px;
-            background: rgba(255, 255, 255, 0.6);
-            transform: rotate(-20deg);
-        }
-
         .nav-links {
             display: flex;
             gap: 32px;
@@ -218,7 +199,34 @@
             color: var(--primary-cyan);
         }
 
-        /* 2. Hero Section */
+        .lang-switch {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-glass);
+            border-radius: 20px;
+            padding: 2px;
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 6px 12px;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn.active {
+            background: var(--primary-cyan);
+            color: #060B19;
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.4);
+        }
+
         .hero {
             padding: 180px 0 100px;
             position: relative;
@@ -275,7 +283,6 @@
             color: var(--text-muted);
         }
 
-        /* Visual Graphic Element */
         .hero-visual {
             position: relative;
             display: flex;
@@ -287,9 +294,6 @@
             width: 380px;
             height: 380px;
             border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, #1e293b, #060B19 80%);
-            border: 1px solid rgba(0, 240, 255, 0.3);
-            box-shadow: 0 0 50px rgba(0, 102, 255, 0.2);
             position: relative;
             display: flex;
             align-items: center;
@@ -306,10 +310,7 @@
 
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        /* 3. Core Strategic Pillars */
-        .pillars {
-            padding: 100px 0;
-        }
+        .pillars { padding: 100px 0; }
 
         .pillars-grid {
             display: grid;
@@ -317,9 +318,7 @@
             gap: 24px;
         }
 
-        .pillar-card {
-            padding: 32px;
-        }
+        .pillar-card { padding: 32px; }
 
         .pillar-icon {
             width: 50px; height: 50px;
@@ -343,7 +342,6 @@
             font-size: 0.95rem;
         }
 
-        /* 4. Capabilities Matrix */
         .capabilities {
             padding: 100px 0;
             background: rgba(14, 23, 42, 0.3);
@@ -363,9 +361,7 @@
             margin-bottom: 24px;
         }
 
-        .capability-list {
-            list-style: none;
-        }
+        .capability-list { list-style: none; }
 
         .capability-list li {
             padding: 16px 0;
@@ -382,10 +378,7 @@
             color: var(--primary-cyan);
         }
 
-        /* 5. Spotlight: Sovereign AI Stack */
-        .spotlight {
-            padding: 100px 0;
-        }
+        .spotlight { padding: 100px 0; }
 
         .spotlight-box {
             padding: 60px;
@@ -425,10 +418,7 @@
             border-left: 4px solid var(--primary-cyan);
         }
 
-        /* 6. Methodology Framework */
-        .framework {
-            padding: 100px 0;
-        }
+        .framework { padding: 100px 0; }
 
         .steps-grid {
             display: grid;
@@ -450,10 +440,7 @@
             top: 15px; right: 20px;
         }
 
-        /* 7. Lead Magnet / Form */
-        .cta-section {
-            padding: 100px 0;
-        }
+        .cta-section { padding: 100px 0; }
 
         .cta-grid {
             display: grid;
@@ -483,7 +470,6 @@
             box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
         }
 
-        /* 8. Footer */
         footer {
             padding: 80px 0 40px;
             background: #03060f;
@@ -507,7 +493,6 @@
             font-size: 0.85rem;
         }
 
-        /* Mobile Responsiveness */
         @media (max-width: 992px) {
             .hero-grid, .matrix-grid, .cta-grid, .steps-grid {
                 grid-template-columns: 1fr;
@@ -530,12 +515,19 @@
                 <span>ONE IT WORLD</span>
             </a>
             <ul class="nav-links">
-                <li><a href="#capabilities">Capabilities</a></li>
-                <li><a href="#sovereignty">Digital Sovereignty</a></li>
-                <li><a href="#ai-platforms">AI & Platforms</a></li>
-                <li><a href="#methodology">Methodology</a></li>
+                <li><a href="#capabilities" data-i18n="nav_capabilities">Capabilities</a></li>
+                <li><a href="#sovereignty" data-i18n="nav_sovereignty">Digital Sovereignty</a></li>
+                <li><a href="#ai-platforms" data-i18n="nav_ai">AI & Platforms</a></li>
+                <li><a href="#methodology" data-i18n="nav_methodology">Methodology</a></li>
             </ul>
-            <a href="#contact" class="btn btn-primary">Schedule Architecture Review</a>
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <a href="#contact" class="btn btn-primary" data-i18n="nav_cta">Schedule Architecture Review</a>
+                <!-- Language Selector -->
+                <div class="lang-switch">
+                    <button id="btn-en" class="lang-btn active" onclick="setLanguage('en')">EN</button>
+                    <button id="btn-es" class="lang-btn" onclick="setLanguage('es')">ES</button>
+                </div>
+            </div>
         </div>
     </header>
 
@@ -543,30 +535,32 @@
     <section class="hero">
         <div class="container hero-grid">
             <div>
-                <span class="section-tag">Enterprise Technology Architecture</span>
-                <h1 class="hero-title">Architecting <span class="text-gradient">Digital Sovereignty</span> & AI-Driven Platforms</h1>
-                <p class="hero-subtitle">We design resilient, enterprise-grade architectures that empower organizations with total data sovereignty, autonomous AI capabilities, and scalable financial infrastructure.</p>
+                <span class="section-tag" data-i18n="hero_tag">Enterprise Technology Architecture</span>
+                <h1 class="hero-title">
+                    <span data-i18n="hero_title_1">Architecting </span><span class="text-gradient" data-i18n="hero_title_gradient">Digital Sovereignty</span><span data-i18n="hero_title_2"> & AI-Driven Platforms</span>
+                </h1>
+                <p class="hero-subtitle" data-i18n="hero_subtitle">We design resilient, enterprise-grade architectures that empower organizations with total data sovereignty, autonomous AI capabilities, and scalable financial infrastructure.</p>
                 <div class="hero-ctas">
-                    <a href="#capabilities" class="btn btn-primary">Explore Enterprise Solutions →</a>
-                    <a href="#sovereignty" class="btn btn-secondary">View Case Studies</a>
+                    <a href="#capabilities" class="btn btn-primary" data-i18n="hero_btn_primary">Explore Enterprise Solutions →</a>
+                    <a href="#sovereignty" class="btn btn-secondary" data-i18n="hero_btn_secondary">View Case Studies</a>
                 </div>
                 <div class="metrics-strip">
                     <div class="metric-item">
-                        <h4>100%</h4>
-                        <p>Data Control & Sovereignty</p>
+                        <h4 data-i18n="metric_1_title">100%</h4>
+                        <p data-i18n="metric_1_desc">Data Control & Sovereignty</p>
                     </div>
                     <div class="metric-item">
-                        <h4>Zero-Trust</h4>
-                        <p>Security & Governance Architecture</p>
+                        <h4 data-i18n="metric_2_title">Zero-Trust</h4>
+                        <p data-i18n="metric_2_desc">Security & Governance Architecture</p>
                     </div>
                     <div class="metric-item">
-                        <h4>Next-Gen</h4>
-                        <p>AI-Native Integration</p>
+                        <h4 data-i18n="metric_3_title">Next-Gen</h4>
+                        <p data-i18n="metric_3_desc">AI-Native Integration</p>
                     </div>
                 </div>
             </div>
             <div class="hero-visual">
-                <div class="globe-container" style="background: transparent; border: none; box-shadow: none;">
+                <div class="globe-container">
                     <div class="node-ring"></div>
                     <img src="logo-transparente.png" alt="ONE IT WORLD Emblem" style="width: 320px; height: 320px; object-fit: contain; filter: drop-shadow(0 0 25px rgba(0, 240, 255, 0.4));">
                 </div>
@@ -577,30 +571,30 @@
     <!-- 3. Core Pillars -->
     <section class="pillars" id="capabilities">
         <div class="container">
-            <span class="section-tag">Strategic Foundations</span>
-            <h2 class="section-title">Core Capability Pillars</h2>
-            <p class="section-desc">Systems engineered to define competitive advantage for global market leaders.</p>
+            <span class="section-tag" data-i18n="pillars_tag">Strategic Foundations</span>
+            <h2 class="section-title" data-i18n="pillars_title">Core Capability Pillars</h2>
+            <p class="section-desc" data-i18n="pillars_desc">Systems engineered to define competitive advantage for global market leaders.</p>
 
             <div class="pillars-grid">
                 <div class="glass-card pillar-card">
                     <div class="pillar-icon">🏛️</div>
-                    <h3>Enterprise Architecture</h3>
-                    <p>Scalable, modular, and resilient IT blueprints built for global expansion and mission-critical uptime.</p>
+                    <h3 data-i18n="pillar_1_title">Enterprise Architecture</h3>
+                    <p data-i18n="pillar_1_desc">Scalable, modular, and resilient IT blueprints built for global expansion and mission-critical uptime.</p>
                 </div>
                 <div class="glass-card pillar-card">
                     <div class="pillar-icon">🛡️</div>
-                    <h3>Digital Sovereignty</h3>
-                    <p>Retain absolute authority over data assets, regulatory compliance, and multi-cloud independence.</p>
+                    <h3 data-i18n="pillar_2_title">Digital Sovereignty</h3>
+                    <p data-i18n="pillar_2_desc">Retain absolute authority over data assets, regulatory compliance, and multi-cloud independence.</p>
                 </div>
                 <div class="glass-card pillar-card">
                     <div class="pillar-icon">🧠</div>
-                    <h3>AI-Native Systems</h3>
-                    <p>Embedded intelligence, autonomous workflow orchestration, and private LLM enterprise pipelines.</p>
+                    <h3 data-i18n="pillar_3_title">AI-Native Systems</h3>
+                    <p data-i18n="pillar_3_desc">Embedded intelligence, autonomous workflow orchestration, and private LLM enterprise pipelines.</p>
                 </div>
                 <div class="glass-card pillar-card">
                     <div class="pillar-icon">💳</div>
-                    <h3>Financial Platforms</h3>
-                    <p>High-throughput, ultra-low latency transaction engines and banking orchestration layers.</p>
+                    <h3 data-i18n="pillar_4_title">Financial Platforms</h3>
+                    <p data-i18n="pillar_4_desc">High-throughput, ultra-low latency transaction engines and banking orchestration layers.</p>
                 </div>
             </div>
         </div>
@@ -609,35 +603,35 @@
     <!-- 4. Capabilities Matrix -->
     <section class="capabilities">
         <div class="container">
-            <span class="section-tag">Technical Depth</span>
-            <h2 class="section-title">Architectural Capabilities Matrix</h2>
+            <span class="section-tag" data-i18n="matrix_tag">Technical Depth</span>
+            <h2 class="section-title" data-i18n="matrix_title">Architectural Capabilities Matrix</h2>
             
             <div class="matrix-grid">
                 <div class="matrix-column">
-                    <h3>Cloud & Architecture</h3>
+                    <h3 data-i18n="col_1_title">Cloud & Architecture</h3>
                     <ul class="capability-list">
-                        <li>TOGAF / ArchiMate Framework Alignment</li>
-                        <li>Multi-Cloud Hybrid Sovereignty Models</li>
-                        <li>Microservices & Event-Driven Mesh</li>
-                        <li>API Governance & Ecosystem Integration</li>
+                        <li data-i18n="col_1_item_1">TOGAF / ArchiMate Framework Alignment</li>
+                        <li data-i18n="col_1_item_2">Multi-Cloud Hybrid Sovereignty Models</li>
+                        <li data-i18n="col_1_item_3">Microservices & Event-Driven Mesh</li>
+                        <li data-i18n="col_1_item_4">API Governance & Ecosystem Integration</li>
                     </ul>
                 </div>
                 <div class="matrix-column">
-                    <h3>AI & Data Engineering</h3>
+                    <h3 data-i18n="col_2_title">AI & Data Engineering</h3>
                     <ul class="capability-list">
-                        <li>Private & Air-Gapped LLM Deployments</li>
-                        <li>Autonomous Agent Workflows</li>
-                        <li>Real-Time Streaming & Analytics</li>
-                        <li>Ethical AI Governance & Auditing</li>
+                        <li data-i18n="col_2_item_1">Private & Air-Gapped LLM Deployments</li>
+                        <li data-i18n="col_2_item_2">Autonomous Agent Workflows</li>
+                        <li data-i18n="col_2_item_3">Real-Time Streaming & Analytics</li>
+                        <li data-i18n="col_2_item_4">Ethical AI Governance & Auditing</li>
                     </ul>
                 </div>
                 <div class="matrix-column">
-                    <h3>Security & Compliance</h3>
+                    <h3 data-i18n="col_3_title">Security & Compliance</h3>
                     <ul class="capability-list">
-                        <li>Zero-Trust Network Architecture (ZTNA)</li>
-                        <li>Regulatory Alignment (DORA, SEC, GDPR)</li>
-                        <li>Cyber Resilience & Disaster Recovery</li>
-                        <li>Automated Governance Audit Trails</li>
+                        <li data-i18n="col_3_item_1">Zero-Trust Network Architecture (ZTNA)</li>
+                        <li data-i18n="col_3_item_2">Regulatory Alignment (DORA, SEC, GDPR)</li>
+                        <li data-i18n="col_3_item_3">Cyber Resilience & Disaster Recovery</li>
+                        <li data-i18n="col_3_item_4">Automated Governance Audit Trails</li>
                     </ul>
                 </div>
             </div>
@@ -648,13 +642,13 @@
     <section class="spotlight" id="sovereignty">
         <div class="container">
             <div class="glass-card spotlight-box">
-                <span class="section-tag">Featured Solution Stack</span>
-                <h2 class="section-title">The Sovereign AI & Data Stack</h2>
-                <p>Uncompromising artificial intelligence capabilities without forfeiting data ownership or corporate privacy.</p>
+                <span class="section-tag" data-i18n="spotlight_tag">Featured Solution Stack</span>
+                <h2 class="section-title" data-i18n="spotlight_title">The Sovereign AI & Data Stack</h2>
+                <p data-i18n="spotlight_desc">Uncompromising artificial intelligence capabilities without forfeiting data ownership or corporate privacy.</p>
                 
                 <div class="toggle-container">
-                    <button class="toggle-btn active" onclick="switchTab('sovereign')">ONE IT WORLD Sovereign Stack</button>
-                    <button class="toggle-btn" onclick="switchTab('public')">Standard Public Cloud Risk</button>
+                    <button class="toggle-btn active" data-tab="sovereign" onclick="updateSpotlightTab('sovereign')" data-i18n="toggle_sovereign">ONE IT WORLD Sovereign Stack</button>
+                    <button class="toggle-btn" data-tab="public" onclick="updateSpotlightTab('public')" data-i18n="toggle_public">Standard Public Cloud Risk</button>
                 </div>
 
                 <div class="comparison-content" id="comparisonText">
@@ -668,28 +662,28 @@
     <!-- 6. Execution Methodology -->
     <section class="framework" id="methodology">
         <div class="container">
-            <span class="section-tag">Implementation Roadmap</span>
-            <h2 class="section-title">Strategic Execution Framework</h2>
+            <span class="section-tag" data-i18n="framework_tag">Implementation Roadmap</span>
+            <h2 class="section-title" data-i18n="framework_title">Strategic Execution Framework</h2>
             <div class="steps-grid">
                 <div class="glass-card step-card">
                     <div class="step-num">01</div>
-                    <h3>Discover & Map</h3>
-                    <p style="color: var(--text-muted); font-size:0.9rem; margin-top:10px;">Deep-dive architectural audit of legacy assets and operational bottlenecks.</p>
+                    <h3 data-i18n="step_1_title">Discover & Map</h3>
+                    <p data-i18n="step_1_desc" style="color: var(--text-muted); font-size:0.9rem; margin-top:10px;">Deep-dive architectural audit of legacy assets and operational bottlenecks.</p>
                 </div>
                 <div class="glass-card step-card">
                     <div class="step-num">02</div>
-                    <h3>Blueprint</h3>
-                    <p style="color: var(--text-muted); font-size:0.9rem; margin-top:10px;">Designing sovereign boundaries, security zones, and AI platform schemas.</p>
+                    <h3 data-i18n="step_2_title">Blueprint</h3>
+                    <p data-i18n="step_2_desc" style="color: var(--text-muted); font-size:0.9rem; margin-top:10px;">Designing sovereign boundaries, security zones, and AI platform schemas.</p>
                 </div>
                 <div class="glass-card step-card">
                     <div class="step-num">03</div>
-                    <h3>Orchestrate</h3>
-                    <p style="color: var(--text-muted); font-size:0.9rem; margin-top:10px;">Precision engineering, microservice rollout, and zero-downtime integration.</p>
+                    <h3 data-i18n="step_3_title">Orchestrate</h3>
+                    <p data-i18n="step_3_desc" style="color: var(--text-muted); font-size:0.9rem; margin-top:10px;">Precision engineering, microservice rollout, and zero-downtime integration.</p>
                 </div>
                 <div class="glass-card step-card">
                     <div class="step-num">04</div>
-                    <h3>Govern & Scale</h3>
-                    <p style="color: var(--text-muted); font-size:0.9rem; margin-top:10px;">Continuous compliance automation, security monitoring, and AI evolution.</p>
+                    <h3 data-i18n="step_4_title">Govern & Scale</h3>
+                    <p data-i18n="step_4_desc" style="color: var(--text-muted); font-size:0.9rem; margin-top:10px;">Continuous compliance automation, security monitoring, and AI evolution.</p>
                 </div>
             </div>
         </div>
@@ -700,34 +694,33 @@
         <div class="container">
             <div class="glass-card cta-grid" style="padding: 60px;">
                 <div>
-                    <span class="section-tag">Initiate Transformation</span>
-                    <h2 class="section-title">Ready to Redefine Your Enterprise Advantage?</h2>
-                    <p style="color: var(--text-muted);">Partner with world-class system architects to build secure, sovereign, and intelligent platforms.</p>
+                    <span class="section-tag" data-i18n="cta_tag">Initiate Transformation</span>
+                    <h2 class="section-title" data-i18n="cta_title">Ready to Redefine Your Enterprise Advantage?</h2>
+                    <p style="color: var(--text-muted);" data-i18n="cta_desc">Partner with world-class system architects to build secure, sovereign, and intelligent platforms.</p>
                 </div>
                 <form class="contact-form" id="contactForm" onsubmit="handleContactSubmit(event)">
-                    <input type="text" id="fullName" class="form-input" placeholder="Full Name" required>
-                    <input type="email" id="corporateEmail" class="form-input" placeholder="Corporate Email (e.g. name@company.com)" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" title="Please enter a valid corporate email address">
+                    <input type="text" id="fullName" class="form-input" placeholder="Full Name" data-i18n-placeholder="form_name" required>
+                    <input type="email" id="corporateEmail" class="form-input" placeholder="Corporate Email (e.g. name@company.com)" data-i18n-placeholder="form_email" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" title="Please enter a valid corporate email address">
                     
-                    <!-- Optional WhatsApp Field with Country Code -->
                     <div style="display: flex; gap: 10px;">
-                        <input type="text" id="countryCode" class="form-input" style="width: 35%;" placeholder="Country Code (+1, +57, etc.)" pattern="^\+?[0-9]{1,4}$" title="e.g. +1 or +57">
-                        <input type="text" id="whatsapp" class="form-input" style="width: 65%;" placeholder="WhatsApp / Telegram (Optional)">
+                        <input type="text" id="countryCode" class="form-input" style="width: 35%;" placeholder="Country Code (+1, +57, etc.)" data-i18n-placeholder="form_country" pattern="^\+?[0-9]{1,4}$" title="e.g. +1 or +57">
+                        <input type="text" id="whatsapp" class="form-input" style="width: 65%;" placeholder="WhatsApp / Telegram (Optional)" data-i18n-placeholder="form_whatsapp">
                     </div>
 
                     <select id="focusArea" class="form-input" required>
-                        <option value="" style="background: var(--surface-dark);">Select Key Focus Area</option>
-                        <option value="Enterprise Architecture" style="background: var(--surface-dark);">Enterprise Architecture</option>
-                        <option value="Digital Sovereignty & Security" style="background: var(--surface-dark);">Digital Sovereignty & Security</option>
-                        <option value="AI-Native System Integration" style="background: var(--surface-dark);">AI-Native System Integration</option>
-                        <option value="Financial Platforms" style="background: var(--surface-dark);">Financial Platforms</option>
+                        <option value="" style="background: var(--surface-dark);" data-i18n="form_select_placeholder">Select Key Focus Area</option>
+                        <option value="Enterprise Architecture" style="background: var(--surface-dark);" data-i18n="form_opt_1">Enterprise Architecture</option>
+                        <option value="Digital Sovereignty & Security" style="background: var(--surface-dark);" data-i18n="form_opt_2">Digital Sovereignty & Security</option>
+                        <option value="AI-Native System Integration" style="background: var(--surface-dark);" data-i18n="form_opt_3">AI-Native System Integration</option>
+                        <option value="Financial Platforms" style="background: var(--surface-dark);" data-i18n="form_opt_4">Financial Platforms</option>
                     </select>
 
                     <div>
-                        <textarea id="message" class="form-input" rows="4" maxlength="300" placeholder="Briefly describe your technical objective (Max 300 chars)" required oninput="updateCharCount(this)"></textarea>
+                        <textarea id="message" class="form-input" rows="4" maxlength="300" placeholder="Briefly describe your technical objective (Max 300 chars)" data-i18n-placeholder="form_message" required oninput="updateCharCount(this)"></textarea>
                         <div id="charCount" style="font-size: 0.8rem; color: var(--text-muted); text-align: right; margin-top: 4px;">0 / 300 characters</div>
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Initiate Strategic Consultation</button>
+                    <button type="submit" class="btn btn-primary" data-i18n="form_btn">Initiate Strategic Consultation</button>
                 </form>
             </div>
         </div>
@@ -742,32 +735,31 @@
                         <img src="logo-transparente.png" alt="ONE IT WORLD Logo" style="height: 38px; width: auto; object-fit: contain;">
                         <span>ONE IT WORLD</span>
                     </a>
-                    <p style="color: var(--text-muted); font-size: 0.9rem; max-width: 280px;">
+                    <p style="color: var(--text-muted); font-size: 0.9rem; max-width: 280px;" data-i18n="footer_tagline">
                         Designing the Future. Delivering Impact. Systems that define competitive advantage.
                     </p>
                 </div>
                 <div>
-                    <h4 style="margin-bottom: 16px;">Capabilities</h4>
+                    <h4 style="margin-bottom: 16px;" data-i18n="footer_col_1">Capabilities</h4>
                     <p style="color: var(--text-muted); font-size: 0.85rem; line-height: 2;">Enterprise Blueprints<br>Sovereign Cloud<br>Private LLMs<br>Financial Engines</p>
                 </div>
                 <div>
-                    <h4 style="margin-bottom: 16px;">Frameworks</h4>
+                    <h4 style="margin-bottom: 16px;" data-i18n="footer_col_2">Frameworks</h4>
                     <p style="color: var(--text-muted); font-size: 0.85rem; line-height: 2;">TOGAF / ArchiMate<br>Zero-Trust Security<br>DORA / SEC Governance<br>AI Ethics</p>
                 </div>
                 <div>
-                    <h4 style="margin-bottom: 16px;">Global</h4>
+                    <h4 style="margin-bottom: 16px;" data-i18n="footer_col_3">Global</h4>
                     <p style="color: var(--text-muted); font-size: 0.85rem; line-height: 2;">LinkedIn<br>YouTube Channel<br>Whitepapers<br>Contact Architecture Team</p>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>© 2026 ONE IT WORLD. All Rights Reserved. Designed for Enterprise Excellence.</p>
-                <p>Privacy Policy | Terms of Governance</p>
+                <p data-i18n="footer_copyright">© 2026 ONE IT WORLD. All Rights Reserved. Designed for Enterprise Excellence.</p>
+                <p data-i18n="footer_terms">Privacy Policy | Terms of Governance</p>
             </div>
         </div>
     </footer>
 
     <script>
-        // Navbar Scroll Effect
         window.addEventListener('scroll', () => {
             const nav = document.getElementById('navbar');
             if (window.scrollY > 50) {
@@ -777,35 +769,11 @@
             }
         });
 
-        // Toggle Switch for Sovereign AI Stack
-        function switchTab(type) {
-            const btns = document.querySelectorAll('.toggle-btn');
-            const textContainer = document.getElementById('comparisonText');
-
-            btns.forEach(b => b.classList.remove('active'));
-
-            if (type === 'sovereign') {
-                btns[0].classList.add('active');
-                textContainer.innerHTML = `
-                    <h4 style="color: var(--primary-cyan); margin-bottom: 8px;">Private & Air-Gapped Deployment</h4>
-                    <p style="color: var(--text-muted);">Your data never leaves your defined legal perimeter. Full model ownership, zero third-party telemetry, and total compliance with international sovereignty mandates.</p>
-                `;
-            } else {
-                btns[1].classList.add('active');
-                textContainer.innerHTML = `
-                    <h4 style="color: #ff4d4d; margin-bottom: 8px;">Shared Public Infrastructure Risks</h4>
-                    <p style="color: var(--text-muted);">Potential data leakage into public LLM training sets, vendor lock-in, unannounced API changes, and exposure to cross-border regulatory fines.</p>
-                `;
-            }
-        }
-
-        // Character Counter for Message Textarea
         function updateCharCount(textarea) {
             const count = textarea.value.length;
             document.getElementById('charCount').textContent = `${count} / 300 characters`;
         }
 
-        // Handle Mailto Contact Form Submission with Validation
         function handleContactSubmit(event) {
             event.preventDefault();
             
@@ -816,28 +784,261 @@
             const focus = document.getElementById('focusArea').value;
             const message = document.getElementById('message').value.trim();
 
-            // Strict Email Format Validation
             const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
             if (!emailRegex.test(email)) {
-                alert("Please enter a valid corporate email address.");
+                alert(currentLang === 'es' ? "Por favor ingrese un correo corporativo válido." : "Please enter a valid corporate email address.");
                 return;
             }
 
-            // Character Length Validation
             if (message.length > 300) {
-                alert("The message exceeds the maximum allowed length of 300 characters.");
+                alert(currentLang === 'es' ? "El mensaje supera el límite máximo de 300 caracteres." : "The message exceeds the maximum allowed length of 300 characters.");
                 return;
             }
 
             const whatsappInfo = whatsapp ? `${countryCode ? countryCode + ' ' : ''}${whatsapp}` : "Not provided";
-
             const recipient = "mnaranjo@oneitworld.com";
             const subject = encodeURIComponent(`Architecture Review Inquiry - ${name} (${focus})`);
-            
             const bodyText = `Full Name: ${name}%0D%0ACorporate Email: ${email}%0D%0AWhatsApp / Phone: ${whatsappInfo}%0D%0AFocus Area: ${focus}%0D%0A%0D%0AMessage / Objective (Max 300 chars):%0D%0A${message}`;
 
             window.location.href = `mailto:${recipient}?subject=${subject}&body=${bodyText}`;
         }
     </script>
+
+    <script>
+        const translations = {
+            en: {
+                nav_capabilities: "Capabilities",
+                nav_sovereignty: "Digital Sovereignty",
+                nav_ai: "AI & Platforms",
+                nav_methodology: "Methodology",
+                nav_cta: "Schedule Architecture Review",
+                hero_tag: "Enterprise Technology Architecture",
+                hero_title_1: "Architecting ",
+                hero_title_gradient: "Digital Sovereignty",
+                hero_title_2: " & AI-Driven Platforms",
+                hero_subtitle: "We design resilient, enterprise-grade architectures that empower organizations with total data sovereignty, autonomous AI capabilities, and scalable financial infrastructure.",
+                hero_btn_primary: "Explore Enterprise Solutions →",
+                hero_btn_secondary: "View Case Studies",
+                metric_1_title: "100%",
+                metric_1_desc: "Data Control & Sovereignty",
+                metric_2_title: "Zero-Trust",
+                metric_2_desc: "Security & Governance Architecture",
+                metric_3_title: "Next-Gen",
+                metric_3_desc: "AI-Native Integration",
+                pillars_tag: "Strategic Foundations",
+                pillars_title: "Core Capability Pillars",
+                pillars_desc: "Systems engineered to define competitive advantage for global market leaders.",
+                pillar_1_title: "Enterprise Architecture",
+                pillar_1_desc: "Scalable, modular, and resilient IT blueprints built for global expansion and mission-critical uptime.",
+                pillar_2_title: "Digital Sovereignty",
+                pillar_2_desc: "Retain absolute authority over data assets, regulatory compliance, and multi-cloud independence.",
+                pillar_3_title: "AI-Native Systems",
+                pillar_3_desc: "Embedded intelligence, autonomous workflow orchestration, and private LLM enterprise pipelines.",
+                pillar_4_title: "Financial Platforms",
+                pillar_4_desc: "High-throughput, ultra-low latency transaction engines and banking orchestration layers.",
+                matrix_tag: "Technical Depth",
+                matrix_title: "Architectural Capabilities Matrix",
+                col_1_title: "Cloud & Architecture",
+                col_1_item_1: "TOGAF / ArchiMate Framework Alignment",
+                col_1_item_2: "Multi-Cloud Hybrid Sovereignty Models",
+                col_1_item_3: "Microservices & Event-Driven Mesh",
+                col_1_item_4: "API Governance & Ecosystem Integration",
+                col_2_title: "AI & Data Engineering",
+                col_2_item_1: "Private & Air-Gapped LLM Deployments",
+                col_2_item_2: "Autonomous Agent Workflows",
+                col_2_item_3: "Real-Time Streaming & Analytics",
+                col_2_item_4: "Ethical AI Governance & Auditing",
+                col_3_title: "Security & Compliance",
+                col_3_item_1: "Zero-Trust Network Architecture (ZTNA)",
+                col_3_item_2: "Regulatory Alignment (DORA, SEC, GDPR)",
+                col_3_item_3: "Cyber Resilience & Disaster Recovery",
+                col_3_item_4: "Automated Governance Audit Trails",
+                spotlight_tag: "Featured Solution Stack",
+                spotlight_title: "The Sovereign AI & Data Stack",
+                spotlight_desc: "Uncompromising artificial intelligence capabilities without forfeiting data ownership or corporate privacy.",
+                toggle_sovereign: "ONE IT WORLD Sovereign Stack",
+                toggle_public: "Standard Public Cloud Risk",
+                framework_tag: "Implementation Roadmap",
+                framework_title: "Strategic Execution Framework",
+                step_1_title: "Discover & Map",
+                step_1_desc: "Deep-dive architectural audit of legacy assets and operational bottlenecks.",
+                step_2_title: "Blueprint",
+                step_2_desc: "Designing sovereign boundaries, security zones, and AI platform schemas.",
+                step_3_title: "Orchestrate",
+                step_3_desc: "Precision engineering, microservice rollout, and zero-downtime integration.",
+                step_4_title: "Govern & Scale",
+                step_4_desc: "Continuous compliance automation, security monitoring, and AI evolution.",
+                cta_tag: "Initiate Transformation",
+                cta_title: "Ready to Redefine Your Enterprise Advantage?",
+                cta_desc: "Partner with world-class system architects to build secure, sovereign, and intelligent platforms.",
+                form_name: "Full Name",
+                form_email: "Corporate Email (e.g. name@company.com)",
+                form_country: "Country Code (+1, +57, etc.)",
+                form_whatsapp: "WhatsApp / Telegram (Optional)",
+                form_select_placeholder: "Select Key Focus Area",
+                form_opt_1: "Enterprise Architecture",
+                form_opt_2: "Digital Sovereignty & Security",
+                form_opt_3: "AI-Native System Integration",
+                form_opt_4: "Financial Platforms",
+                form_message: "Briefly describe your technical objective (Max 300 chars)",
+                form_btn: "Initiate Strategic Consultation",
+                footer_tagline: "Designing the Future. Delivering Impact. Systems that define competitive advantage.",
+                footer_col_1: "Capabilities",
+                footer_col_2: "Frameworks",
+                footer_col_3: "Global",
+                footer_copyright: "© 2026 ONE IT WORLD. All Rights Reserved. Designed for Enterprise Excellence.",
+                footer_terms: "Privacy Policy | Terms of Governance"
+            },
+            es: {
+                nav_capabilities: "Capacidades",
+                nav_sovereignty: "Soberanía Digital",
+                nav_ai: "IA y Plataformas",
+                nav_methodology: "Metodología",
+                nav_cta: "Agendar Revisión de Arquitectura",
+                hero_tag: "Arquitectura Tecnológica Empresarial",
+                hero_title_1: "Diseñando ",
+                hero_title_gradient: "Soberanía Digital",
+                hero_title_2: " y Plataformas impulsadas por IA",
+                hero_subtitle: "Diseñamos arquitecturas empresariales resilientes que otorgan a las organizaciones soberanía total de datos, capacidades de IA autónoma e infraestructura financiera escalable.",
+                hero_btn_primary: "Explorar Soluciones Empresariales →",
+                hero_btn_secondary: "Ver Casos de Estudio",
+                metric_1_title: "100%",
+                metric_1_desc: "Control y Soberanía de Datos",
+                metric_2_title: "Zero-Trust",
+                metric_2_desc: "Arquitectura de Seguridad y Gobernanza",
+                metric_3_title: "Next-Gen",
+                metric_3_desc: "Integración Nativa con IA",
+                pillars_tag: "Fundamentos Estratégicos",
+                pillars_title: "Pilares de Capacidad Central",
+                pillars_desc: "Sistemas diseñados para definir ventajas competitivas para líderes del mercado global.",
+                pillar_1_title: "Arquitectura Empresarial",
+                pillar_1_desc: "Planos de TI escalables, modulares y resilientes diseñados para la expansión global y alta disponibilidad.",
+                pillar_2_title: "Soberanía Digital",
+                pillar_2_desc: "Mantenga autoridad absoluta sobre sus activos de datos, cumplimiento normativo e independencia multi-nube.",
+                pillar_3_title: "Sistemas Nativos en IA",
+                pillar_3_desc: "Inteligencia integrada, orquestación de flujos de trabajo autónomos y pipelines privados de LLM empresarial.",
+                pillar_4_title: "Plataformas Financieras",
+                pillar_4_desc: "Motores de transacciones de alto rendimiento y ultra baja latencia con capas de orquestación bancaria.",
+                matrix_tag: "Profundidad Técnica",
+                matrix_title: "Matriz de Capacidades de Arquitectura",
+                col_1_title: "Nube y Arquitectura",
+                col_1_item_1: "Alineación con Marcos TOGAF / ArchiMate",
+                col_1_item_2: "Modelos Híbridos de Soberanía Multi-Nube",
+                col_1_item_3: "Microservicios y Malla Basada en Eventos",
+                col_1_item_4: "Gobernanza de APIs e Integración de Ecosistemas",
+                col_2_title: "IA e Ingeniería de Datos",
+                col_2_item_1: "Despliegues Privados y Aislados de LLM",
+                col_2_item_2: "Flujos de Trabajo con Agentes Autónomos",
+                col_2_item_3: "Transmisión y Analítica en Tiempo Real",
+                col_2_item_4: "Auditoría y Gobernanza Ética de IA",
+                col_3_title: "Seguridad y Cumplimiento",
+                col_3_item_1: "Arquitectura de Red Zero-Trust (ZTNA)",
+                col_3_item_2: "Alineación Regulatoria (DORA, SEC, GDPR)",
+                col_3_item_3: "Ciberresiliencia y Recuperación ante Desastres",
+                col_3_item_4: "Pistas de Auditoría de Gobernanza Automatizadas",
+                spotlight_tag: "Stack de Soluciones Destacado",
+                spotlight_title: "Stack de IA y Datos Soberanos",
+                spotlight_desc: "Capacidades de inteligencia artificial sin concesiones, garantizando la propiedad de los datos y la privacidad corporativa.",
+                toggle_sovereign: "Stack Soberano ONE IT WORLD",
+                toggle_public: "Riesgos de Nube Pública Estándar",
+                framework_tag: "Hoja de Ruta de Implementación",
+                framework_title: "Marco Estratégico de Ejecución",
+                step_1_title: "Descubrir y Mapear",
+                step_1_desc: "Auditoría de arquitectura profunda sobre sistemas heredados y cuellos de botella operativos.",
+                step_2_title: "Diseño y Plano",
+                step_2_desc: "Definición de límites soberanos, zonas de seguridad y esquemas de plataformas de IA.",
+                step_3_title: "Orquestar",
+                step_3_desc: "Ingeniería de precisión, despliegue de microservicios e integración con cero tiempo de inactividad.",
+                step_4_title: "Gobernar y Escalar",
+                step_4_desc: "Automatización de cumplimiento continuo, monitoreo de seguridad y evolución de la IA.",
+                cta_tag: "Iniciar Transformación",
+                cta_title: "¿Listo para Redefinir su Ventaja Empresarial?",
+                cta_desc: "Asóciese con arquitectos de sistemas de nivel mundial para construir plataformas seguras, soberanas e inteligentes.",
+                form_name: "Nombre Completo",
+                form_email: "Correo Corporativo (ej. nombre@empresa.com)",
+                form_country: "Indicativo de País (+1, +57, etc.)",
+                form_whatsapp: "WhatsApp / Telegram (Opcional)",
+                form_select_placeholder: "Seleccione Área de Enfoque Clave",
+                form_opt_1: "Arquitectura Empresarial",
+                form_opt_2: "Soberanía Digital y Seguridad",
+                form_opt_3: "Integración de Sistemas Nativos en IA",
+                form_opt_4: "Plataformas Financieras",
+                form_message: "Describa brevemente su objetivo técnico (Máx 300 caracteres)",
+                form_btn: "Iniciar Consulta Estratégica",
+                footer_tagline: "Diseñando el Futuro. Entregando Impacto. Sistemas que definen la ventaja competitiva.",
+                footer_col_1: "Capacidades",
+                footer_col_2: "Marcos de Trabajo",
+                footer_col_3: "Global",
+                footer_copyright: "© 2026 ONE IT WORLD. Todos los derechos reservados. Diseñado para la Excelencia Empresarial.",
+                footer_terms: "Política de Privacidad | Términos de Gobernanza"
+            }
+        };
+
+        let currentLang = 'en';
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`btn-${lang}`).classList.add('active');
+
+            const t = translations[lang];
+
+            // Replace text content dynamically for data-i18n attributes
+            document.querySelectorAll('[data-i18n]').forEach(elem => {
+                const key = elem.getAttribute('data-i18n');
+                if (t[key]) {
+                    elem.textContent = t[key];
+                }
+            });
+
+            // Replace placeholders
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(elem => {
+                const key = elem.getAttribute('data-i18n-placeholder');
+                if (t[key]) {
+                    elem.placeholder = t[key];
+                }
+            });
+
+            // Re-render Sovereign AI spotlight content
+            const activeTab = document.querySelector('.toggle-btn.active').dataset.tab || 'sovereign';
+            updateSpotlightTab(activeTab);
+        }
+
+        function updateSpotlightTab(type) {
+            const btns = document.querySelectorAll('.toggle-btn');
+            const textContainer = document.getElementById('comparisonText');
+
+            btns.forEach(b => b.classList.remove('active'));
+
+            if (type === 'sovereign') {
+                btns[0].classList.add('active');
+                if (currentLang === 'es') {
+                    textContainer.innerHTML = `
+                        <h4 style="color: var(--primary-cyan); margin-bottom: 8px;">Despliegue Privado y Aislado (Air-Gapped)</h4>
+                        <p style="color: var(--text-muted);">Sus datos nunca salen del perímetro legal definido. Propiedad total sobre el modelo, cero telemetría a terceros y cumplimiento estricto de leyes de soberanía de datos.</p>
+                    `;
+                } else {
+                    textContainer.innerHTML = `
+                        <h4 style="color: var(--primary-cyan); margin-bottom: 8px;">Private & Air-Gapped Deployment</h4>
+                        <p style="color: var(--text-muted);">Your data never leaves your defined legal perimeter. Full model ownership, zero third-party telemetry, and total compliance with international sovereignty mandates.</p>
+                    `;
+                }
+            } else {
+                btns[1].classList.add('active');
+                if (currentLang === 'es') {
+                    textContainer.innerHTML = `
+                        <h4 style="color: #ff4d4d; margin-bottom: 8px;">Riesgos en Infraestructura Pública Compartida</h4>
+                        <p style="color: var(--text-muted);">Posible filtración de datos corporativos en modelos públicos de IA, dependencia del proveedor, cambios inesperados en APIs y exposición a multas regulatorias transfronterizas.</p>
+                    `;
+                } else {
+                    textContainer.innerHTML = `
+                        <h4 style="color: #ff4d4d; margin-bottom: 8px;">Shared Public Infrastructure Risks</h4>
+                        <p style="color: var(--text-muted);">Potential data leakage into public LLM training sets, vendor lock-in, unannounced API changes, and exposure to cross-border regulatory fines.</p>
+                    `;
+                }
+            }
+        }
+    </script>
+
 </body>
 </html>
